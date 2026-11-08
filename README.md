@@ -1,54 +1,46 @@
-# Movement Studio UI prototype
+# Movement Studio
 
-This is the first UI build for the team's camera-based movement coach. The product name is temporary. Desk and gym have equal prominence, with original movement visuals and interaction patterns designed for this project.
+**UB Hacking 2026 · Camera-based movement coaching**
 
-## Run
+Movement Studio is a PWA for desk time and workouts. It pairs a clear view of movement with one useful next step: take a break, adjust your form, or keep going. The experience is designed around a simple loop: **sense → understand → act**.
 
-From this directory:
+## Try the demo
+
+1. Explore the animated movement blueprint. Switch between seated posture and a bodyweight squat, or pause the motion.
+2. Open the studio and try **Desk mode** and **Gym mode**. Each sample session shows how observations become short, explainable cues.
+3. Open **Why this?** to see the reason behind a cue, or use **Tell us** to correct it.
+4. Choose **Use camera** to see a real webcam preview. Camera access begins only after you choose it and can be paused at any time.
+
+The blueprint and sample sessions are **illustrative demos**. The camera preview is real, but it does not claim to classify posture or count reps on its own.
+
+## What is built
+
+| Part | Current state |
+| --- | --- |
+| PWA and UI | Responsive desk and gym experience, installable app shell, reduced-motion support |
+| Movement blueprint | Original animated wireframe scenes for sitting and squatting |
+| Demo flows | Interactive sample sessions, cues, explanations, and correction controls |
+| Camera | Opt-in live preview with pause control |
+| Squat engine | Landmark-based rep and tempo logic in `gym/coach.mjs`; waits for a connected pose model |
+| Desk activity recognition | Integration point ready for the team's posture model |
+
+The squat engine accepts MediaPipe-style 33-point pose landmarks, counts a completed down-and-up rep, and asks for a clearer view when leg visibility is low. Its thresholds are prototype values, not a safety assessment.
+
+## Run locally
 
 ```bash
 python3 -m http.server 8766 --bind 127.0.0.1
 ```
 
-Open `http://127.0.0.1:8766/`. The static app has no build step. It includes a web manifest and service worker for the app shell. The optional Google Fonts request affects typography only.
+Open [http://127.0.0.1:8766/](http://127.0.0.1:8766/). No build step is required. Run the squat engine checks with:
 
-## What works now
-
-- Responsive landing page and studio for desktop and mobile.
-- An illustrative wireframe movement blueprint for seated posture and bodyweight squats. The scene draws in, cycles through motion, and has scene and pause controls. It uses no camera input and is labeled accordingly.
-- Interactive, **clearly labeled simulated** desk and gym experiences.
-- Camera permission is requested only when the user clicks **Use camera**. The camera can be paused.
-- Cue explanation and correction dialogs.
-- A visual pose stage and an integration API for real model observations.
-- The gym logic from `gym/coach.mjs` is exposed through the UI adapter.
-
-## What still needs Mudit's model
-
-The camera button shows a **real preview only**. It does not classify desk activity on its own. The UI never represents the preview as live AI inference. Mudit can connect his pose and activity pipeline using the API below. With a successful connection, the stage shows landmarks, activity, confidence, and cues from the actual model.
-
-```js
-// Once camera preview is active:
-window.motionUI.setObservation({
-  activity: 'Sitting',
-  description: 'A sustained seated period is visible.',
-  confidence: 0.86,
-  status: 'tracking',
-  cue: 'Would a short movement break feel good?',
-  evidence: 'Based on 8 minutes of seated activity.'
-});
-
-// For real bodyweight squat frames in gym mode:
-window.motionUI.updatePose(poseLandmarks, performance.now(), {
-  aspectRatio: video.videoWidth / video.videoHeight
-});
+```bash
+node --test gym/coach.test.mjs
 ```
 
-The UI emits `movement-action` and `movement-correction` window events for the model/session layer. It does not store video frames. The gym prototype uses angle thresholds and requires real-person camera testing before a competition demo. See `gym/README.md` and `AI_ML_WIN_PLAN.md`.
+## Team
 
-## UI review checklist
-
-- Check the first click path on phone and laptop.
-- Test both modes and the cue explanation.
-- Try keyboard-only navigation and reduced motion.
-- Test camera denied, camera paused, and model unavailable states.
-- Confirm the final name, copy, and visual palette with the team.
+- **Shreynik:** PWA and UI/UX
+- **Mudit Jain:** posture and activity recognition
+- **Aditya Gupta:** exercise form and coaching
+- **Harsh Deshmukh:** nutrition and recovery
