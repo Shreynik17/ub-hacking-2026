@@ -1,6 +1,6 @@
 # Movement Studio UI prototype
 
-This is the first UI build for the team's camera-based movement coach. The product name is temporary. Desk and gym have equal prominence. The interface draws on the cinematic pacing and precise framing seen on Vaulk, with original movement visuals and interaction patterns designed for this project. The 21st.dev component library was reviewed for reference; no component code was copied.
+This is the first UI build for the team's camera-based movement coach. The product name is temporary. Desk and gym have equal prominence, with original movement visuals and interaction patterns designed for this project.
 
 ## Run
 
@@ -52,8 +52,3 @@ The UI emits `movement-action` and `movement-correction` window events for the m
 - Try keyboard-only navigation and reduced motion.
 - Test camera denied, camera paused, and model unavailable states.
 - Confirm the final name, copy, and visual palette with the team.
-
-## References inspected
-
-- https://vaulk.com/en-GB
-- https://21st.dev/community/components
